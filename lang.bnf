@@ -1,0 +1,48 @@
+/* Lexical Part */
+
+terminator: '\n';
+
+!whitespace : ' ' | '\t' | '\r' ;
+
+_letter        : _unicodeLetter | '_' ;
+_unicodeLetter : 'a' - 'z' | 'A' - 'Z' ;
+_decimalDigit  : '0' - '9' ;
+
+intLit: '0' | '1'-'9' {_decimalDigit}; 
+
+identifier : _letter { _letter | _decimalDigit } ;
+
+assign: '=';
+plus: '+';
+minus: '-';
+
+/* Syntax Part */
+
+<< 
+import (
+	"minicompiler/ast" 
+)
+>>
+
+
+Program: Statements << ast.NewProgram($0) >>;
+
+Statements
+	: Statements Statement << ast.AppendStatement($0, $1) >>
+	| empty << ast.NewStatementList() >>;
+
+Statement
+	: "@" identifier assign Expression terminator << ast.NewIdentInit($1, $3) >>
+	| identifier assign Expression terminator << ast.NewAssignStatement($0, $2) >>;
+
+Expression
+  	: Expression Operation Term << ast.NewInfixExpression($0, $2, $1) >>
+  	| Term;
+
+Term
+	: intLit << ast.NewIntegerLiteral($0) >>
+	| identifier << ast.NewIdentExpression($0) >>;
+
+Operation
+ 	: plus 
+ 	| minus;
