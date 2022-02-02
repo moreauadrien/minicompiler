@@ -1,0 +1,39 @@
+DEPTH=256;
+WIDTH=24;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT
+BEGIN
+00 : 01001B;	% MOV R1, #vnn_i %
+01 : 040000;	% LDRB R0, [R1] %
+02 : 03001D;	% MOV R3, #temp_1 %
+03 : 070000;	% CMP R0, R3 %
+04 : 08001A;	% BEQ fin %
+05 : 03001D;	% MOV R3, #temp_1 %
+06 : 0E0000;	% SUB R0, R0, R3 %
+07 : 060000;	% STRB R0, [R1] %
+08 : 040000;	% LDRB R0, [R1] %
+09 : 03001D;	% MOV R3, #temp_1 %
+0A : 0F0000;	% AND R0, R0, R3 %
+0B : 070000;	% CMP R0, R3 %
+0C : 080013;	% BEQ impaire %
+0D : 01001C;	% MOV R1, #res_i %
+0E : 040000;	% LDRB R0, [R1] %
+0F : 03001D;	% MOV R3, #temp_1 %
+10 : 100000;	% LSR R0, R0, R3 %
+11 : 060000;	% STRB R0, [R1] %
+12 : 0B0000;	% B test %
+13 : 01001C;	% MOV R1, #res_i %
+14 : 040000;	% LDRB R0, [R1] %
+15 : 130000;	% MOV R3, R0 %
+16 : 120000;	% ADD R0, R0, R0 %
+17 : 110000;	% ADD R0, R0, R3 %
+18 : 060000;	% STRB R0, [R1] %
+19 : 0B0000;	% B test %
+1A : 0B001A;	% B fin %
+1B : 000006;	% vnn_i DCB 0x06 %
+1C : 00000E;	% res_i DCB 0x0E %
+1D : 000001;	% temp_1 DCB 0x01 %
+END

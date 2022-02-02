@@ -3,7 +3,6 @@ package main
 import (
 	"minicompiler/ast"
 	"minicompiler/cmd"
-	"minicompiler/gen"
 	"minicompiler/lexer"
 	"minicompiler/mif_parser"
 	"minicompiler/parser"
@@ -54,16 +53,16 @@ func main() {
 
 	input, err := readFile(cmpOptions.Inputpath)
 	checkError(err)
-	program := Parse(input)
+	//program := Parse(input)
 	reg := regexp.MustCompile(`\..*?$`)
 	mifFileName := reg.ReplaceAllString(cmpOptions.Inputpath, ".mif")
 
-	asmCode := gen.GenWrapper(program)
+	//asmCode := gen.GenWrapper(program)
 
 	//if cmpOptions.AssemblyOutput {
-	writeFile(cmpOptions.Outputpath, asmCode.String())
+	//writeFile(cmpOptions.Outputpath, asmCode.String())
 
-	mifCode := mif_parser.CompileToMif(asmCode.String())
+	mifCode := mif_parser.CompileToMif(input)
 	writeFile(mifFileName, mifCode.String())
 	//}
 
