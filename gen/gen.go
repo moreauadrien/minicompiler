@@ -143,9 +143,9 @@ func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar *bytes.Buff
 
 	case "==", "<":
 		write(b, "CMP R0, R3\n")
-		write(b, "MOV R0, #1\n")
+		write(b, "MOV R0, #0x1\n")
 		write(b, "%v condtrue%v\n", operatorToInstru[node.Operator], tempLabel)
-		write(b, "MOV R0, #0\n")
+		write(b, "MOV R0, #0x0\n")
 		write(b, "condtrue%v\n", tempLabel)
 	}
 
@@ -166,7 +166,7 @@ func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar *bytes.Buffer) stri
 
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
-	write(b, "MOV R3, #1\n")
+	write(b, "MOV R3, #0x1\n")
 	write(b, "CMP R0, R3\n")
 	if len(elseCode) > 0 {
 		write(b, "BNE else%v\n", labelId)
@@ -188,7 +188,7 @@ func genWhileStatement(node *ast.WhileStatement, b, bVar, bTempVar *bytes.Buffer
 	cond := gen(node.Condition, b, bVar, bTempVar)
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
-	write(b, "MOV R3, #1\n")
+	write(b, "MOV R3, #0x1\n")
 	write(b, "CMP R0, R3\n")
 	write(b, "BNE endwhile%v\n", labelId)
 	gen(node.Block, b, bVar, bTempVar)
