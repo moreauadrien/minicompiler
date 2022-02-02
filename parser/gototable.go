@@ -2,7 +2,7 @@
 
 package parser
 
-const numNTSymbols = 7
+const numNTSymbols = 9
 
 type (
 	gotoTable [numStates]gotoRow
@@ -14,7 +14,9 @@ var gotoTab = gotoTable{
 		-1, // S'
 		1,  // Program
 		2,  // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -23,7 +25,9 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -32,7 +36,9 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		3,  // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -41,7 +47,9 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -50,7 +58,9 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -59,7 +69,9 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -68,61 +80,75 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
+		-1, // ElseBlock
+		11, // Expression
+		12, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S7
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
-		10, // Expression
-		11, // Term
+		-1, // ElseBlock
+		14, // Expression
+		12, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S8
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
-		13, // Expression
-		11, // Term
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S9
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
-		-1, // Expression
-		-1, // Term
+		-1, // ElseBlock
+		17, // Expression
+		18, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S10
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		15, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S11
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		20, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		22, // Operation
 	},
 	gotoRow{ // S12
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -131,34 +157,42 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		15, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S14
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		27, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		22, // Operation
 	},
 	gotoRow{ // S15
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
-		-1, // Expression
-		19, // Term
+		-1, // ElseBlock
+		29, // Expression
+		18, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S16
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -167,16 +201,20 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		31, // Operation
 	},
 	gotoRow{ // S18
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -185,7 +223,526 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
+		-1, // StatementBlock
 		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S20
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		32, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S21
+		-1, // S'
+		-1, // Program
+		34, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S22
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		35, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S23
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S24
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S25
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S26
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S27
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S28
+		-1, // S'
+		-1, // Program
+		36, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S29
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		31, // Operation
+	},
+	gotoRow{ // S30
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S31
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		38, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S32
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S33
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		39, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S34
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		40, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S35
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S36
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		40, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S37
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S38
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S39
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S40
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S41
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S42
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S43
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S44
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		49, // Expression
+		12, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S45
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		50, // Expression
+		12, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S46
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S47
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S48
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		52, // Expression
+		18, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S49
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		53, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		22, // Operation
+	},
+	gotoRow{ // S50
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		55, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		22, // Operation
+	},
+	gotoRow{ // S51
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		57, // Expression
+		18, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S52
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		31, // Operation
+	},
+	gotoRow{ // S53
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		59, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S54
+		-1, // S'
+		-1, // Program
+		61, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S55
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S56
+		-1, // S'
+		-1, // Program
+		62, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S57
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		31, // Operation
+	},
+	gotoRow{ // S58
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S59
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S60
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		64, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S61
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		40, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S62
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		40, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S63
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S64
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S65
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S66
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation

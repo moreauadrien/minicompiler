@@ -1,0 +1,12 @@
+@i = 0;
+@max = 10;
+@un = 0;
+@un1 = 1;
+@temp = 0;
+
+while i < max {
+	temp = un1;
+	un1 = un + un1;
+	un = temp;
+	i = i + 1;
+}

@@ -1,8 +1,0 @@
-00 : 000006	% temp_1 DCB 0x6 %
-01 : 000001	% temp_2 DCB 0x1 %
-02 : 000000	% temp_3 DCB 0x0 %
-03 : 000005	% temp_4 DCB 0x5 %
-04 : 000000	% temp_5 DCB 0x0 %
-05 : 00000E	% temp_6 DCB 0xE %
-06 : 000000	% temp_7 DCB 0x0 %
-07 : 000000	% var_i DCB 0x0 %

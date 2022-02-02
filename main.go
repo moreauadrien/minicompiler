@@ -67,7 +67,7 @@ func main() {
 	writeFile(mifFileName, mifCode.String())
 	//}
 
-	/*	js, err := json.MarshalIndent(program, "", "    ")
-		checkError(err)
-		fmt.Printf("\n%s\n", js)*/
+	/*js, err := json.MarshalIndent(program, "", "    ")
+	checkError(err)
+	fmt.Printf("\n%s\n", js)*/
 }

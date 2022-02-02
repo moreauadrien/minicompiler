@@ -39,3 +39,38 @@ type AssignStatement struct {
 	Right Expression   `json:"right"`
 }
 
+type BlockStatement struct {
+	Token      *token.Token `json:"-"`
+	Statements []Statement  `json:"statements"`
+}
+
+type IfStatement struct {
+	Token       *token.Token    `json:"-"`
+	Condition   Expression      `json:"condition"`
+	Block       *BlockStatement `json:"block"`
+	Alternative *BlockStatement `json:"alternative"`
+}
+
+type WhileStatement struct {
+	Token       *token.Token    `json:"-"`
+	Condition   Expression      `json:"condition"`
+	Block       *BlockStatement `json:"block"`
+}
+
+type Identifier struct {
+	Token *token.Token `json:"-"`
+	Value string       `json:"value"`
+}
+
+type IntegerLiteral struct {
+	Token *token.Token `json:"-"`
+	Value string       `json:"value"`
+}
+
+type InfixExpression struct {
+	Token    *token.Token `json:"-"`
+	Type     string       `json:"-"`
+	Left     Expression   `json:"left"`
+	Right    Expression   `json:"right"`
+	Operator string       `json:"operator"`
+}
