@@ -33,6 +33,7 @@ var opcode map[string]string = map[string]string{
 	"ADD R0, R0, R3":     "11",
 	"ADD R0, R0, R0":     "12",
 	"MOV R3, R0":         "13",
+	"BNE label":          "14",
 }
 
 func check(e error) {

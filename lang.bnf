@@ -19,6 +19,10 @@ minus: '-';
 lbrace: '{';
 rbrace: '}';
 
+!comment : _lineComment | _blockComment ;
+_lineComment : '/' '/' { . } '\n' ;
+_blockComment : '/' '*' { . | '*' } '*' '/';
+
 /* Syntax Part */
 
 << 
