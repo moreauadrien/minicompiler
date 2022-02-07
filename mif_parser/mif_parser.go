@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-var variable *regexp.Regexp = regexp.MustCompile("([a-z]{3,}_[a-z0-9]+)[ \t]+DCB[ \t]+0x([0-9A-F]+)")
+var variable *regexp.Regexp = regexp.MustCompile("([a-z]{3,}_[a-z0-9]+)[ \t]+DCB[ \t]+((?:0x[0-9A-F]+,?)+)")
 
 var label *regexp.Regexp = regexp.MustCompile("^([a-z]{3,}[0-9]*)$")
 var paramreg string = "#((?:0x[0-9A-F]+)|[a-z]{3,}_[a-z0-9]+)$"
@@ -87,9 +87,13 @@ func CompileToMif(asmContent string) bytes.Buffer {
 		}
 		//remplissage de la map varline
 		if g := variable.FindStringSubmatch(line); !isEmpty(line) && len(g) > 0 {
+			//case tab
+			g[2] = strings.ReplaceAll(g[2], "0x", "")
+			fmt.Println(len(g), g[2])
+			value := strings.Split(g[2], ",")
 			lineMap[g[1]] = fmt.Sprintf("%4X", i)
 			lineMap[g[1]] = strings.ReplaceAll(lineMap[g[1]], " ", "0")
-			i++
+			i += len(value)
 			fmt.Println("key : ", g[1], "\t\tvalue : ", lineMap[g[1]])
 
 		}
@@ -155,12 +159,31 @@ func CompileToMif(asmContent string) bytes.Buffer {
 
 		//case of variable
 		if g := variable.FindStringSubmatch(line); !isEmpty(line) && len(g) > 0 {
+			//case of tab
+			g[2] = strings.ReplaceAll(g[2], "0x", "")
+			value_1 := strings.Split(g[2], ",")
 			//numerotation ligne
+			if len(value_1) > 1 {
+				for _, val := range value_1 {
+					data := fmt.Sprintf("%2X", i)
+					data = strings.ReplaceAll(data, " ", "0")
+					data = fmt.Sprintf("%v : ", data)
+					//ecriture value
+					value := fmt.Sprintf("%6v", val)
+					value = strings.ReplaceAll(value, " ", "0")
+					//comentaire
+					com := fmt.Sprintf("%v %v %v", "%", line, "%")
+					//ligne + value + commentaire
+					data = fmt.Sprintf("%v%v;\t%v\n", data, value, com)
+					write(&b, "%v", data)
+					i++
+				}
+			}
 			data := fmt.Sprintf("%2X", i)
 			data = strings.ReplaceAll(data, " ", "0")
 			data = fmt.Sprintf("%v : ", data)
 			//ecriture value
-			value := fmt.Sprintf("%6v", g[2])
+			value := fmt.Sprintf("%6v", value_1[0])
 			value = strings.ReplaceAll(value, " ", "0")
 			//comentaire
 			com := fmt.Sprintf("%v %v %v", "%", line, "%")
@@ -169,6 +192,7 @@ func CompileToMif(asmContent string) bytes.Buffer {
 
 			write(&b, "%v", data)
 			i++
+
 		}
 
 	}
