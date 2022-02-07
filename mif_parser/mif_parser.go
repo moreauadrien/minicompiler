@@ -36,6 +36,7 @@ var opcode map[string]string = map[string]string{
 	"BNE label":          "14",
 	"WAIT #param":        "15",
 	"MUL R0, R0, R3":     "16",
+	"MOV R0, R3":         "17",
 }
 
 func check(e error) {

@@ -129,7 +129,8 @@ func genAssignTabStatement(node *ast.AssignTabStatement, b, bVar, bTempVar, bTab
 		write(b, "MOV R1, #tab_%v\n", node.Left.Value)
 	}
 	write(b, "ADD R1, R1, R0\n")
-	write(b, "STRB R3, [R1]\n")
+	write(b, "MOV R0, R3\n")
+	write(b, "STRB R0, [R1]\n")
 	return ""
 }
 
@@ -215,7 +216,8 @@ func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar, bTabs *bytes.Buffe
 
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
-	write(b, "MOV R3, #0x1\n")
+	write(b, "MOV R1, #const_1\n")
+	write(b, "LDRB R3, [R1]\n")
 	write(b, "CMP R0, R3\n")
 	if len(elseCode) > 0 {
 		write(b, "BNE else%v\n", labelId)
@@ -237,7 +239,8 @@ func genWhileStatement(node *ast.WhileStatement, b, bVar, bTempVar, bTabs *bytes
 	cond := gen(node.Condition, b, bVar, bTempVar, bTabs)
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
-	write(b, "MOV R3, #0x1\n")
+	write(b, "MOV R1, #const_1\n")
+	write(b, "LDRB R3, [R1]\n")
 	write(b, "CMP R0, R3\n")
 	write(b, "BNE endwhile%v\n", labelId)
 	gen(node.Block, b, bVar, bTempVar, bTabs)
