@@ -1,0 +1,65 @@
+DEPTH=256;
+WIDTH=24;
+
+ADDRESS_RADIX=HEX;
+DATA_RADIX=HEX;
+
+CONTENT
+BEGIN
+00 : 01002F;	% MOV R1, #temp_1 %
+01 : 040000;	% LDRB R0, [R1] %
+02 : 010036;	% MOV R1, #var_x %
+03 : 060000;	% STRB R0, [R1] %
+04 : 010030;	% MOV R1, #temp_2 %
+05 : 040000;	% LDRB R0, [R1] %
+06 : 010037;	% MOV R1, #var_y %
+07 : 060000;	% STRB R0, [R1] %
+08 : 010031;	% MOV R1, #temp_3 %
+09 : 040000;	% LDRB R0, [R1] %
+0A : 010036;	% MOV R1, #var_x %
+0B : 050000;	% LDRB R3, [R1] %
+0C : 070000;	% CMP R0, R3 %
+0D : 020001;	% MOV R0, #0x1 %
+0E : 0A0010;	% BCC condtrue2 %
+0F : 020000;	% MOV R0, #0x0 %
+10 : 010032;	% MOV R1, #temp_4 %
+11 : 060000;	% STRB R0, [R1] %
+12 : 010032;	% MOV R1, #temp_4 %
+13 : 040000;	% LDRB R0, [R1] %
+14 : 030001;	% MOV R3, #0x1 %
+15 : 070000;	% CMP R0, R3 %
+16 : 14002E;	% BNE endwhile1 %
+17 : 010037;	% MOV R1, #var_y %
+18 : 040000;	% LDRB R0, [R1] %
+19 : 010037;	% MOV R1, #var_y %
+1A : 050000;	% LDRB R3, [R1] %
+1B : 110000;	% ADD R0, R0, R3 %
+1C : 010033;	% MOV R1, #temp_5 %
+1D : 060000;	% STRB R0, [R1] %
+1E : 010033;	% MOV R1, #temp_5 %
+1F : 040000;	% LDRB R0, [R1] %
+20 : 010037;	% MOV R1, #var_y %
+21 : 060000;	% STRB R0, [R1] %
+22 : 010036;	% MOV R1, #var_x %
+23 : 040000;	% LDRB R0, [R1] %
+24 : 010034;	% MOV R1, #temp_6 %
+25 : 050000;	% LDRB R3, [R1] %
+26 : 0E0000;	% SUB R0, R0, R3 %
+27 : 010035;	% MOV R1, #temp_7 %
+28 : 060000;	% STRB R0, [R1] %
+29 : 010035;	% MOV R1, #temp_7 %
+2A : 040000;	% LDRB R0, [R1] %
+2B : 010036;	% MOV R1, #var_x %
+2C : 060000;	% STRB R0, [R1] %
+2D : 0B0008;	% B startwhile1 %
+2E : 0B002E;	% B endprog %
+2F : 000009;	% temp_1 DCB 0x9 %
+30 : 00000A;	% temp_2 DCB 0xA %
+31 : 000000;	% temp_3 DCB 0x0 %
+32 : 000000;	% temp_4 DCB 0x0 %
+33 : 000000;	% temp_5 DCB 0x0 %
+34 : 000001;	% temp_6 DCB 0x1 %
+35 : 000000;	% temp_7 DCB 0x0 %
+36 : 000000;	% var_x DCB 0x0 %
+37 : 000000;	% var_y DCB 0x0 %
+END

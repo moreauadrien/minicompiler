@@ -11,10 +11,10 @@ var tmpCount int
 var labelCount int
 
 var operatorToInstru = map[string]string{
-	"+": "ADD",
-	"-": "SUB",
+	"+":  "ADD",
+	"-":  "SUB",
 	"==": "BEQ",
-	"<": "BCC",
+	"<":  "BCC",
 }
 
 func check(err error) {
@@ -33,7 +33,7 @@ func GenWrapper(p *ast.Program) bytes.Buffer {
 	var b, bVar, bTempVar bytes.Buffer
 	gen(p, &b, &bVar, &bTempVar)
 
-	b.WriteString("endprog END\n\n")
+	b.WriteString("endprog \nEND\nB endprog\n")
 
 	b.WriteString(bTempVar.String())
 	b.WriteString(bVar.String())
