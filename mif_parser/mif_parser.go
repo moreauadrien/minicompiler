@@ -88,20 +88,16 @@ func CompileToMif(asmContent string) bytes.Buffer {
 		if g := variable.FindStringSubmatch(line); !isEmpty(line) && len(g) > 0 {
 			//case tab
 			g[2] = strings.ReplaceAll(g[2], "0x", "")
-			fmt.Println(len(g), g[2])
 			value := strings.Split(g[2], ",")
 			lineMap[g[1]] = fmt.Sprintf("%4X", i)
 			lineMap[g[1]] = strings.ReplaceAll(lineMap[g[1]], " ", "0")
 			i += len(value)
-			fmt.Println("key : ", g[1], "\t\tvalue : ", lineMap[g[1]])
-
 		}
 		//remplissage de la map labelLine
 		if g := label.FindStringSubmatch(line); !isEmpty(line) && len(g) > 0 {
 
 			lineMap[g[1]] = fmt.Sprintf("%4X", i)
 			lineMap[g[1]] = strings.ReplaceAll(lineMap[g[1]], " ", "0")
-			fmt.Println("key : ", g[1], "\t\tvalue : ", lineMap[g[1]])
 		}
 
 	}
@@ -197,6 +193,6 @@ func CompileToMif(asmContent string) bytes.Buffer {
 	}
 	eof := "END"
 	write(&b, "%v", eof)
-
+	fmt.Println("\tCompilation Successful")
 	return b
 }
