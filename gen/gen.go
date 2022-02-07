@@ -146,7 +146,7 @@ func genTabInitStatement(node *ast.TabInitStatement, b, bVar, bTempVar, bTabs *b
 	size := node.Size
 	defaultValue := fmt.Sprintf("0x%X", node.DefaultValue)
 
-	tabInit := strings.Repeat(defaultValue+", ", size)
+	tabInit := strings.Repeat(defaultValue+",", size)
 	tabInit = strings.TrimRight(tabInit, ", ")
 
 	write(bTabs, "tab_%v DCB %v\n", node.Location, tabInit)
