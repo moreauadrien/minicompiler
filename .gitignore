@@ -1,0 +1,4 @@
+*.mif
+*.asm
+minicompiler
+.DS_Store
