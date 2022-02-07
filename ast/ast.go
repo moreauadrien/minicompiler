@@ -3,58 +3,8 @@ package ast
 import (
 	"fmt"
 	"minicompiler/token"
+	"strconv"
 )
-
-// interface methods
-func (p Program) TokenLiteral() string {
-	return "Program"
-}
-
-// Statements
-func (is InitStatement) statementNode() {}
-func (is InitStatement) TokenLiteral() string {
-	return "InitStatement"
-}
-
-func (es ExpressionStatement) statementNode() {}
-func (es ExpressionStatement) TokenLiteral() string {
-	return "ExpressionStatement"
-}
-
-func (ls AssignStatement) statementNode() {}
-func (ls AssignStatement) TokenLiteral() string {
-	return "AssignStatement"
-}
-
-func (is IfStatement) statementNode() {}
-func (is IfStatement) TokenLiteral() string {
-	return "IfStatement"
-}
-
-func (is WhileStatement) statementNode() {}
-func (is WhileStatement) TokenLiteral() string {
-	return "WhileStatement"
-}
-
-func (bs BlockStatement) statementNode() {}
-func (bs BlockStatement) TokenLiteral() string {
-	return "BlockStatement"
-}
-
-func (i Identifier) expressionNode() {}
-func (i Identifier) TokenLiteral() string {
-	return string(i.Token.Lit)
-}
-
-func (il IntegerLiteral) expressionNode() {}
-func (il IntegerLiteral) TokenLiteral() string {
-	return string(il.Token.Lit)
-}
-
-func (oe InfixExpression) expressionNode() {}
-func (oe InfixExpression) TokenLiteral() string {
-	return string(oe.Token.Lit)
-}
 
 func NewProgram(stmts Attrib) (*Program, error) {
 	s, ok := stmts.([]Statement)
@@ -97,6 +47,25 @@ func NewAssignStatement(left, right Attrib) (Statement, error) {
 	}
 
 	return &AssignStatement{Left: Identifier{Value: string(l.Lit)}, Right: r}, nil
+}
+
+func NewAssignTabStatement(left, index, right Attrib) (Statement, error) {
+	l, ok := left.(*token.Token)
+	if !ok {
+		return nil, fmt.Errorf("NewAssignTabStatement Identifier left %v", left)
+	}
+
+	i, ok := index.(Expression)
+	if !ok {
+		return nil, fmt.Errorf("NewAssignTabStatement Identifier index %v", index)
+	}
+
+	r, ok := right.(Expression)
+	if !ok {
+		return nil, fmt.Errorf("NewAssignTabStatement Expression right %v", right)
+	}
+
+	return &AssignTabStatement{Left: Identifier{Value: string(l.Lit)}, Right: r, Index: i}, nil
 }
 
 func NewBlockStatement(stmts Attrib) (*BlockStatement, error) {
@@ -146,10 +115,25 @@ func NewIdentInit(ident, expr Attrib) (Statement, error) {
 	return &InitStatement{Location: string(ident.(*token.Token).Lit), Token: ident.(*token.Token), Expr: e}, nil
 }
 
+func NewTabInit(ident, size, defaultValue Attrib) (Statement, error) {
+	tabSize, err := strconv.Atoi(string(size.(*token.Token).Lit))
+
+	if err != nil {
+		return nil, fmt.Errorf("NewTabInit size %v", size)
+	}
+
+	defaultVal, err := strconv.Atoi(string(defaultValue.(*token.Token).Lit))
+
+	if err != nil {
+		return nil, fmt.Errorf("NewTabInit defaultValue %v", defaultValue)
+	}
+
+	return &TabInitStatement{Token: ident.(*token.Token), Location: string(ident.(*token.Token).Lit), Size: tabSize, DefaultValue: defaultVal}, nil
+}
+
 func NewIdentExpression(ident Attrib) (*Identifier, error) {
 	return &Identifier{Value: string(ident.(*token.Token).Lit), Token: ident.(*token.Token)}, nil
 }
-
 
 func NewIfStatement(cond, cons, alt Attrib) (Statement, error) {
 	c, ok := cond.(Expression)

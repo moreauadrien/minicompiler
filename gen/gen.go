@@ -5,16 +5,18 @@ import (
 	"fmt"
 	"minicompiler/ast"
 	"strconv"
+	"strings"
 )
 
 var tmpCount int
 var labelCount int
 
 var operatorToInstru = map[string]string{
-	"+": "ADD",
-	"-": "SUB",
+	"+":  "ADD",
+	"-":  "SUB",
+	"*":  "MUL",
 	"==": "BEQ",
-	"<": "BCC",
+	"<":  "BCC",
 }
 
 func check(err error) {
@@ -30,12 +32,15 @@ func write(b *bytes.Buffer, code string, args ...interface{}) {
 func GenWrapper(p *ast.Program) bytes.Buffer {
 	tmpCount = 0
 	labelCount = 0
-	var b, bVar, bTempVar bytes.Buffer
-	gen(p, &b, &bVar, &bTempVar)
+	var b, bVar, bTempVar, bTabs bytes.Buffer
+	gen(p, &b, &bVar, &bTempVar, &bTabs)
 
-	b.WriteString("endprog END\n\n")
+	b.WriteString("endprog\nB endprog\n\n")
 
+	b.WriteString("const_1 DCB 0x1\n")
+	b.WriteString("const_0 DCB 0x0\n")
 	b.WriteString(bTempVar.String())
+	b.WriteString(bTabs.String())
 	b.WriteString(bVar.String())
 
 	return b
@@ -54,48 +59,52 @@ func newLabelNumber() int {
 	return labelCount
 }
 
-func gen(node ast.Node, b, bVar, bTempVar *bytes.Buffer) string {
+func gen(node ast.Node, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	switch node := node.(type) {
 
 	case *ast.Program:
-		return genProgram(node, b, bVar, bTempVar)
+		return genProgram(node, b, bVar, bTempVar, bTabs)
 	case *ast.ExpressionStatement:
-		return genExpressionStatement(node, b, bVar, bTempVar)
+		return genExpressionStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.AssignStatement:
-		return genAssignStatement(node, b, bVar, bTempVar)
+		return genAssignStatement(node, b, bVar, bTempVar, bTabs)
+	case *ast.AssignTabStatement:
+		return genAssignTabStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.InitStatement:
-		return genInitStatement(node, b, bVar, bTempVar)
+		return genInitStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.BlockStatement:
-		return genBlockStatement(node, b, bVar, bTempVar)
+		return genBlockStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.InfixExpression:
-		return genInfixExpression(node, b, bVar, bTempVar)
+		return genInfixExpression(node, b, bVar, bTempVar, bTabs)
 	case *ast.IntegerLiteral:
-		return genInteger(node, b, bVar, bTempVar)
+		return genInteger(node, b, bVar, bTempVar, bTabs)
 	case *ast.Identifier:
-		return genIdentifier(node, b, bVar, bTempVar)
+		return genIdentifier(node, b, bVar, bTempVar, bTabs)
 	case *ast.IfStatement:
-		return genIfStatement(node, b, bVar, bTempVar)
+		return genIfStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.WhileStatement:
-		return genWhileStatement(node, b, bVar, bTempVar)
+		return genWhileStatement(node, b, bVar, bTempVar, bTabs)
+	case *ast.TabInitStatement:
+		return genTabInitStatement(node, b, bVar, bTempVar, bTabs)
 	}
 	return ""
 }
 
-func genProgram(node *ast.Program, b, bVar, bTempVar *bytes.Buffer) string {
+func genProgram(node *ast.Program, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	for _, stmt := range node.Statements {
-		gen(stmt, b, bVar, bTempVar)
+		gen(stmt, b, bVar, bTempVar, bTabs)
 	}
 	return ""
 }
 
-func genExpressionStatement(node *ast.ExpressionStatement, b, bVar, bTempVar *bytes.Buffer) string {
-	value := gen(node.Expression, b, bVar, bTempVar)
+func genExpressionStatement(node *ast.ExpressionStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	value := gen(node.Expression, b, bVar, bTempVar, bTabs)
 	write(b, "%v\n", value)
 	return ""
 }
 
-func genAssignStatement(node *ast.AssignStatement, b, bVar, bTempVar *bytes.Buffer) string {
-	right := gen(node.Right, b, bVar, bTempVar)
+func genAssignStatement(node *ast.AssignStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	right := gen(node.Right, b, bVar, bTempVar, bTabs)
 	write(b, "MOV R1, #%v\n", right)
 	write(b, "LDRB R0, [R1]\n")
 	write(b, "MOV R1, #var_%v\n", node.Left.Value)
@@ -103,8 +112,27 @@ func genAssignStatement(node *ast.AssignStatement, b, bVar, bTempVar *bytes.Buff
 	return ""
 }
 
-func genInitStatement(node *ast.InitStatement, b, bVar, bTempVar *bytes.Buffer) string {
-	right := gen(node.Expr, b, bVar, bTempVar)
+func genAssignTabStatement(node *ast.AssignTabStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	index := gen(node.Index, b, bVar, bTempVar, bTabs)
+	right := gen(node.Right, b, bVar, bTempVar, bTabs)
+	ident := node.Left.Value
+
+	write(b, "MOV R1, #%v\n", right)
+	write(b, "LDRB R3, [R1]\n")
+	write(b, "MOV R1, #%v\n", index)
+	write(b, "LDRB R0, [R1]\n")
+	if ident == "screen" {
+		write(b, "MOV R1, #0x200\n")
+	} else {
+		write(b, "MOV R1, #tab_%v\n", node.Left.Value)
+	}
+	write(b, "ADD R1, R1, R0\n")
+	write(b, "STRB R3, [R1]\n")
+	return ""
+}
+
+func genInitStatement(node *ast.InitStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	right := gen(node.Expr, b, bVar, bTempVar, bTabs)
 	write(b, "MOV R1, #%v\n", right)
 	write(b, "LDRB R0, [R1]\n")
 	write(b, "MOV R1, #var_%v\n", node.Location)
@@ -114,7 +142,19 @@ func genInitStatement(node *ast.InitStatement, b, bVar, bTempVar *bytes.Buffer) 
 	return ""
 }
 
-func genInteger(node *ast.IntegerLiteral, b, bVar, bTempVar *bytes.Buffer) string {
+func genTabInitStatement(node *ast.TabInitStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	size := node.Size
+	defaultValue := fmt.Sprintf("0x%X", node.DefaultValue)
+
+	tabInit := strings.Repeat(defaultValue+", ", size)
+	tabInit = strings.TrimRight(tabInit, ", ")
+
+	write(bTabs, "tab_%v DCB %v\n", node.Location, tabInit)
+
+	return ""
+}
+
+func genInteger(node *ast.IntegerLiteral, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	i, err := strconv.ParseUint(node.Value, 10, 32)
 	check(err)
 	hex := fmt.Sprintf("0x%X", i)
@@ -123,14 +163,14 @@ func genInteger(node *ast.IntegerLiteral, b, bVar, bTempVar *bytes.Buffer) strin
 	return tmp
 }
 
-func genIdentifier(node *ast.Identifier, b, bVar, bTempVar *bytes.Buffer) string {
+func genIdentifier(node *ast.Identifier, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	return "var_" + node.Value
 }
 
-func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar *bytes.Buffer) string {
+func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	tempLabel := newLabelNumber()
-	left := gen(node.Left, b, bVar, bTempVar)
-	right := gen(node.Right, b, bVar, bTempVar)
+	left := gen(node.Left, b, bVar, bTempVar, bTabs)
+	right := gen(node.Right, b, bVar, bTempVar, bTabs)
 
 	write(b, "MOV R1, #%v\n", left)
 	write(b, "LDRB R0, [R1]\n")
@@ -138,14 +178,16 @@ func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar *bytes.Buff
 	write(b, "LDRB R3, [R1]\n")
 
 	switch node.Operator {
-	case "+", "-":
+	case "+", "-", "*":
 		write(b, "%v R0, R0, R3\n", operatorToInstru[node.Operator])
 
 	case "==", "<":
 		write(b, "CMP R0, R3\n")
-		write(b, "MOV R0, #0x1\n")
+		write(b, "MOV R1, #const_1\n")
+		write(b, "LDRB R0, [R1]\n")
 		write(b, "%v condtrue%v\n", operatorToInstru[node.Operator], tempLabel)
-		write(b, "MOV R0, #0x0\n")
+		write(b, "MOV R1, #const_0\n")
+		write(b, "LDRB R0, [R1]\n")
 		write(b, "condtrue%v\n", tempLabel)
 	}
 
@@ -157,12 +199,12 @@ func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar *bytes.Buff
 	return tmp
 }
 
-func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar *bytes.Buffer) string {
-	cond := gen(node.Condition, b, bVar, bTempVar)
+func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	cond := gen(node.Condition, b, bVar, bTempVar, bTabs)
 
 	labelId := newLabelNumber()
 
-	elseCode := gen(node.Alternative, b, bVar, bTempVar)
+	elseCode := gen(node.Alternative, b, bVar, bTempVar, bTabs)
 
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
@@ -171,36 +213,36 @@ func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar *bytes.Buffer) stri
 	if len(elseCode) > 0 {
 		write(b, "BNE else%v\n", labelId)
 	}
-	gen(node.Block, b, bVar, bTempVar)
+	gen(node.Block, b, bVar, bTempVar, bTabs)
 	write(b, "B ifend%v\n", labelId)
 
 	if len(elseCode) > 0 {
 		write(b, "else%v\n", labelId)
-		gen(node.Alternative, b, bVar, bTempVar)
+		gen(node.Alternative, b, bVar, bTempVar, bTabs)
 	}
 	write(b, "ifend%v\n", labelId)
 	return ""
 }
 
-func genWhileStatement(node *ast.WhileStatement, b, bVar, bTempVar *bytes.Buffer) string {
+func genWhileStatement(node *ast.WhileStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	labelId := newLabelNumber()
 	write(b, "startwhile%v\n", labelId)
-	cond := gen(node.Condition, b, bVar, bTempVar)
+	cond := gen(node.Condition, b, bVar, bTempVar, bTabs)
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
 	write(b, "MOV R3, #0x1\n")
 	write(b, "CMP R0, R3\n")
 	write(b, "BNE endwhile%v\n", labelId)
-	gen(node.Block, b, bVar, bTempVar)
+	gen(node.Block, b, bVar, bTempVar, bTabs)
 	write(b, "B startwhile%v\n", labelId)
 	write(b, "endwhile%v\n", labelId)
 
 	return ""
 }
 
-func genBlockStatement(node *ast.BlockStatement, b, bVar, bTempVar *bytes.Buffer) string {
+func genBlockStatement(node *ast.BlockStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	for _, stmt := range node.Statements {
-		gen(stmt, b, bVar, bTempVar)
+		gen(stmt, b, bVar, bTempVar, bTabs)
 	}
 	return ""
 }

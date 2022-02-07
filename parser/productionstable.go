@@ -82,10 +82,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : "if" Expression StatementBlock ElseBlock	<< ast.NewIfStatement(X[1], X[2], X[3]) >>`,
+		String: `Statement : "@" identifier "[" intLit "]" assign intLit terminator	<< ast.NewTabInit(X[1], X[3], X[6]) >>`,
 		Id:         "Statement",
 		NTType:     4,
 		Index:      6,
+		NumSymbols: 8,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ast.NewTabInit(X[1], X[3], X[6])
+		},
+	},
+	ProdTabEntry{
+		String: `Statement : "if" Expression StatementBlock ElseBlock	<< ast.NewIfStatement(X[1], X[2], X[3]) >>`,
+		Id:         "Statement",
+		NTType:     4,
+		Index:      7,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewIfStatement(X[1], X[2], X[3])
@@ -95,7 +105,7 @@ var productionsTable = ProdTab{
 		String: `Statement : "while" Expression StatementBlock	<< ast.NewWhileStatement(X[1], X[2]) >>`,
 		Id:         "Statement",
 		NTType:     4,
-		Index:      7,
+		Index:      8,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewWhileStatement(X[1], X[2])
@@ -105,17 +115,27 @@ var productionsTable = ProdTab{
 		String: `Statement : identifier assign Expression terminator	<< ast.NewAssignStatement(X[0], X[2]) >>`,
 		Id:         "Statement",
 		NTType:     4,
-		Index:      8,
+		Index:      9,
 		NumSymbols: 4,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewAssignStatement(X[0], X[2])
 		},
 	},
 	ProdTabEntry{
+		String: `Statement : identifier "[" Expression "]" assign Expression terminator	<< ast.NewAssignTabStatement(X[0], X[2], X[5]) >>`,
+		Id:         "Statement",
+		NTType:     4,
+		Index:      10,
+		NumSymbols: 7,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ast.NewAssignTabStatement(X[0], X[2], X[5])
+		},
+	},
+	ProdTabEntry{
 		String: `ElseBlock : "else" StatementBlock	<< X[1], nil >>`,
 		Id:         "ElseBlock",
 		NTType:     5,
-		Index:      9,
+		Index:      11,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[1], nil
@@ -125,7 +145,7 @@ var productionsTable = ProdTab{
 		String: `ElseBlock : empty	<<  >>`,
 		Id:         "ElseBlock",
 		NTType:     5,
-		Index:      10,
+		Index:      12,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return nil, nil
@@ -135,7 +155,7 @@ var productionsTable = ProdTab{
 		String: `Expression : Expression Operation Term	<< ast.NewInfixExpression(X[0], X[2], X[1]) >>`,
 		Id:         "Expression",
 		NTType:     6,
-		Index:      11,
+		Index:      13,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewInfixExpression(X[0], X[2], X[1])
@@ -145,7 +165,7 @@ var productionsTable = ProdTab{
 		String: `Expression : Term	<<  >>`,
 		Id:         "Expression",
 		NTType:     6,
-		Index:      12,
+		Index:      14,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -155,7 +175,7 @@ var productionsTable = ProdTab{
 		String: `Term : intLit	<< ast.NewIntegerLiteral(X[0]) >>`,
 		Id:         "Term",
 		NTType:     7,
-		Index:      13,
+		Index:      15,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewIntegerLiteral(X[0])
@@ -165,7 +185,7 @@ var productionsTable = ProdTab{
 		String: `Term : identifier	<< ast.NewIdentExpression(X[0]) >>`,
 		Id:         "Term",
 		NTType:     7,
-		Index:      14,
+		Index:      16,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewIdentExpression(X[0])
@@ -175,7 +195,7 @@ var productionsTable = ProdTab{
 		String: `Operation : plus	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      15,
+		Index:      17,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -185,7 +205,17 @@ var productionsTable = ProdTab{
 		String: `Operation : minus	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      16,
+		Index:      18,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `Operation : mul	<<  >>`,
+		Id:         "Operation",
+		NTType:     8,
+		Index:      19,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -195,7 +225,7 @@ var productionsTable = ProdTab{
 		String: `Operation : "=="	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      17,
+		Index:      20,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -205,7 +235,7 @@ var productionsTable = ProdTab{
 		String: `Operation : "<"	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      18,
+		Index:      21,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil

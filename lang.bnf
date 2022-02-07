@@ -15,11 +15,12 @@ identifier : _letter { _letter | _decimalDigit } ;
 assign: '=';
 plus: '+';
 minus: '-';
+mul: '*';
 
 lbrace: '{';
 rbrace: '}';
 
-!comment : _lineComment | _blockComment ;
+!comment : _lineComment | _blockComment;
 _lineComment : '/' '/' { . } '\n' ;
 _blockComment : '/' '*' { . | '*' } '*' '/';
 
@@ -43,9 +44,11 @@ StatementBlock
 
 Statement
 	: "@" identifier assign Expression terminator << ast.NewIdentInit($1, $3) >>
+	| "@" identifier "[" intLit "]" assign intLit terminator << ast.NewTabInit($1, $3, $6) >>
 	| "if" Expression StatementBlock ElseBlock << ast.NewIfStatement($1, $2, $3) >> 
 	| "while" Expression StatementBlock << ast.NewWhileStatement($1, $2) >> 
-	| identifier assign Expression terminator << ast.NewAssignStatement($0, $2) >>;
+	| identifier assign Expression terminator << ast.NewAssignStatement($0, $2) >>
+	| identifier "[" Expression "]" assign Expression terminator << ast.NewAssignTabStatement($0, $2, $5) >>;
 
 ElseBlock
 	: "else" StatementBlock << $1, nil >>
@@ -63,5 +66,6 @@ Term
 Operation
  	: plus 
  	| minus
+ 	| mul 
 	| "=="
 	| "<";
