@@ -15,6 +15,7 @@ var operatorToInstru = map[string]string{
 	"+":  "ADD",
 	"-":  "SUB",
 	"*":  "MUL",
+	"&":  "AND",
 	"==": "BEQ",
 	"<":  "BCC",
 }
@@ -123,11 +124,13 @@ func genAssignTabStatement(node *ast.AssignTabStatement, b, bVar, bTempVar, bTab
 	write(b, "LDRB R3, [R1]\n")
 	write(b, "MOV R1, #%v\n", index)
 	write(b, "LDRB R0, [R1]\n")
-	if ident == "screen" {
+	switch ident {
+	case "screen":
 		write(b, "MOV R1, #0x200\n")
-	} else {
+	default:
 		write(b, "MOV R1, #tab_%v\n", node.Left.Value)
 	}
+
 	write(b, "ADD R1, R1, R0\n")
 	write(b, "MOV R0, R3\n")
 	write(b, "STRB R0, [R1]\n")
@@ -172,7 +175,12 @@ func genInteger(node *ast.IntegerLiteral, b, bVar, bTempVar, bTabs *bytes.Buffer
 }
 
 func genIdentifier(node *ast.Identifier, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
-	return "var_" + node.Value
+	switch node.Value {
+	case "input":
+		return "0x400"
+	default:
+		return "var_" + node.Value
+	}
 }
 
 func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
@@ -212,23 +220,18 @@ func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar, bTabs *bytes.Buffe
 
 	labelId := newLabelNumber()
 
-	elseCode := gen(node.Alternative, b, bVar, bTempVar, bTabs)
+	gen(node.Alternative, b, bVar, bTempVar, bTabs)
 
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
 	write(b, "MOV R1, #const_1\n")
 	write(b, "LDRB R3, [R1]\n")
 	write(b, "CMP R0, R3\n")
-	if len(elseCode) > 0 {
-		write(b, "BNE else%v\n", labelId)
-	}
+	write(b, "BNE else%v\n", labelId)
 	gen(node.Block, b, bVar, bTempVar, bTabs)
 	write(b, "B ifend%v\n", labelId)
-
-	if len(elseCode) > 0 {
-		write(b, "else%v\n", labelId)
-		gen(node.Alternative, b, bVar, bTempVar, bTabs)
-	}
+	write(b, "else%v\n", labelId)
+	gen(node.Alternative, b, bVar, bTempVar, bTabs)
 	write(b, "ifend%v\n", labelId)
 	return ""
 }
