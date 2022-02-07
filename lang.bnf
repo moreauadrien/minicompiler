@@ -48,6 +48,7 @@ Statement
 	| "if" Expression StatementBlock ElseBlock << ast.NewIfStatement($1, $2, $3) >> 
 	| "while" Expression StatementBlock << ast.NewWhileStatement($1, $2) >> 
 	| identifier assign Expression terminator << ast.NewAssignStatement($0, $2) >>
+	| "wait" "(" intLit ")" terminator << ast.NewWaitStatement($2) >>
 	| identifier "[" Expression "]" assign Expression terminator << ast.NewAssignTabStatement($0, $2, $5) >>;
 
 ElseBlock

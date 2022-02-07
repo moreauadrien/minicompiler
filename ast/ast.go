@@ -167,3 +167,13 @@ func NewWhileStatement(cond, cons Attrib) (Statement, error) {
 
 	return &WhileStatement{Condition: c, Block: cs}, nil
 }
+
+func NewWaitStatement(time Attrib) (Statement, error) {
+	timeInt, err := strconv.Atoi(string(time.(*token.Token).Lit))
+
+	if err != nil {
+		return nil, fmt.Errorf("NewWaitStatement timeInt %v", timeInt)
+	}
+
+	return &WaitStatement{Token: time.(*token.Token), Time: timeInt}, nil
+}

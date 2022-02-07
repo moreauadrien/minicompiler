@@ -18,7 +18,6 @@ type Expression interface {
 	expressionNode()
 }
 
-
 type Program struct {
 	Statements []Statement
 }
@@ -26,7 +25,6 @@ type Program struct {
 func (p Program) TokenLiteral() string {
 	return "Program"
 }
-
 
 type ExpressionStatement struct {
 	Token      *token.Token `json:"-"`
@@ -38,7 +36,6 @@ func (es ExpressionStatement) TokenLiteral() string {
 	return "ExpressionStatement"
 }
 
-
 type InitStatement struct {
 	Token    *token.Token `json:"-"`
 	Expr     Expression   `json:"expression"`
@@ -49,7 +46,6 @@ func (is InitStatement) statementNode() {}
 func (is InitStatement) TokenLiteral() string {
 	return "InitStatement"
 }
-
 
 type TabInitStatement struct {
 	Token        *token.Token `json:"-"`
@@ -63,7 +59,6 @@ func (oe TabInitStatement) TokenLiteral() string {
 	return "TabInitStatement"
 }
 
-
 type AssignStatement struct {
 	Token *token.Token `json:"-"`
 	Left  Identifier   `json:"left"`
@@ -75,11 +70,10 @@ func (ls AssignStatement) TokenLiteral() string {
 	return "AssignStatement"
 }
 
-
 type AssignTabStatement struct {
 	Token *token.Token `json:"-"`
 	Left  Identifier   `json:"left"`
-	Index Expression `json:"index"`
+	Index Expression   `json:"index"`
 	Right Expression   `json:"right"`
 }
 
@@ -87,7 +81,6 @@ func (ls AssignTabStatement) statementNode() {}
 func (ls AssignTabStatement) TokenLiteral() string {
 	return "AssignTabStatement"
 }
-
 
 type BlockStatement struct {
 	Token      *token.Token `json:"-"`
@@ -98,7 +91,6 @@ func (bs BlockStatement) statementNode() {}
 func (bs BlockStatement) TokenLiteral() string {
 	return "BlockStatement"
 }
-
 
 type IfStatement struct {
 	Token       *token.Token    `json:"-"`
@@ -112,7 +104,6 @@ func (is IfStatement) TokenLiteral() string {
 	return "IfStatement"
 }
 
-
 type WhileStatement struct {
 	Token     *token.Token    `json:"-"`
 	Condition Expression      `json:"condition"`
@@ -124,6 +115,15 @@ func (is WhileStatement) TokenLiteral() string {
 	return "WhileStatement"
 }
 
+type WaitStatement struct {
+	Token *token.Token `json:"-"`
+	Time  int          `json:"time"`
+}
+
+func (ws WaitStatement) statementNode() {}
+func (ws WaitStatement) TokenLiteral() string {
+	return "WaitStatement"
+}
 
 type Identifier struct {
 	Token *token.Token `json:"-"`
@@ -135,7 +135,6 @@ func (i Identifier) TokenLiteral() string {
 	return string(i.Token.Lit)
 }
 
-
 type IntegerLiteral struct {
 	Token *token.Token `json:"-"`
 	Value string       `json:"value"`
@@ -145,7 +144,6 @@ func (il IntegerLiteral) expressionNode() {}
 func (il IntegerLiteral) TokenLiteral() string {
 	return string(il.Token.Lit)
 }
-
 
 type InfixExpression struct {
 	Token    *token.Token `json:"-"`

@@ -83,8 +83,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		12, // Expression
-		14, // Term
+		13, // Expression
+		15, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S7
@@ -94,8 +94,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		15, // Expression
-		14, // Term
+		16, // Expression
+		15, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S8
@@ -116,8 +116,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		19, // Expression
-		21, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S10
@@ -127,8 +127,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		23, // Expression
-		25, // Term
+		21, // Expression
+		23, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S11
@@ -138,22 +138,11 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
+		25, // Expression
+		27, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S12
-		-1, // S'
-		-1, // Program
-		-1, // Statements
-		26, // StatementBlock
-		-1, // Statement
-		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
-		28, // Operation
-	},
-	gotoRow{ // S13
 		-1, // S'
 		-1, // Program
 		-1, // Statements
@@ -163,6 +152,17 @@ var gotoTab = gotoTable{
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
+	},
+	gotoRow{ // S13
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		28, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		30, // Operation
 	},
 	gotoRow{ // S14
 		-1, // S'
@@ -179,23 +179,23 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		34, // StatementBlock
+		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		28, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S16
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		-1, // StatementBlock
+		36, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		36, // Expression
-		21, // Term
-		-1, // Operation
+		-1, // Expression
+		-1, // Term
+		30, // Operation
 	},
 	gotoRow{ // S17
 		-1, // S'
@@ -215,8 +215,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
+		39, // Expression
+		23, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S19
@@ -228,7 +228,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		39, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S20
 		-1, // S'
@@ -250,7 +250,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		42, // Operation
 	},
 	gotoRow{ // S22
 		-1, // S'
@@ -272,7 +272,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		41, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S24
 		-1, // S'
@@ -294,7 +294,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		44, // Operation
 	},
 	gotoRow{ // S26
 		-1, // S'
@@ -302,7 +302,7 @@ var gotoTab = gotoTable{
 		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
-		42, // ElseBlock
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -310,7 +310,7 @@ var gotoTab = gotoTable{
 	gotoRow{ // S27
 		-1, // S'
 		-1, // Program
-		44, // Statements
+		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
@@ -324,15 +324,15 @@ var gotoTab = gotoTable{
 		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
-		-1, // ElseBlock
+		45, // ElseBlock
 		-1, // Expression
-		45, // Term
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S29
 		-1, // S'
 		-1, // Program
-		-1, // Statements
+		47, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
@@ -348,7 +348,7 @@ var gotoTab = gotoTable{
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
-		-1, // Term
+		48, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S31
@@ -398,7 +398,7 @@ var gotoTab = gotoTable{
 	gotoRow{ // S35
 		-1, // S'
 		-1, // Program
-		46, // Statements
+		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
@@ -415,12 +415,12 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		39, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S37
 		-1, // S'
 		-1, // Program
-		-1, // Statements
+		49, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
@@ -447,8 +447,8 @@ var gotoTab = gotoTable{
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
-		49, // Term
-		-1, // Operation
+		-1, // Term
+		42, // Operation
 	},
 	gotoRow{ // S40
 		-1, // S'
@@ -469,7 +469,7 @@ var gotoTab = gotoTable{
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
-		51, // Term
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S42
@@ -480,14 +480,14 @@ var gotoTab = gotoTable{
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
-		-1, // Term
+		53, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S43
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		52, // StatementBlock
+		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
@@ -499,10 +499,10 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		53, // Statement
+		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
-		-1, // Term
+		55, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S45
@@ -520,8 +520,8 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		-1, // StatementBlock
-		53, // Statement
+		56, // StatementBlock
+		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
@@ -532,7 +532,7 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		-1, // Statement
+		57, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
@@ -554,7 +554,7 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		-1, // Statement
+		57, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
@@ -567,8 +567,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		61, // Expression
-		21, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S51
@@ -611,8 +611,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
+		67, // Expression
+		23, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S55
@@ -644,8 +644,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		65, // Expression
-		14, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S58
@@ -655,8 +655,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		66, // Expression
-		14, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S59
@@ -688,9 +688,9 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
-		39, // Operation
+		71, // Expression
+		15, // Term
+		-1, // Operation
 	},
 	gotoRow{ // S62
 		-1, // S'
@@ -699,8 +699,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
+		72, // Expression
+		15, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S63
@@ -710,8 +710,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		71, // Expression
-		21, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S64
@@ -721,31 +721,31 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		72, // Expression
-		25, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S65
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		73, // StatementBlock
+		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		28, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S66
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		75, // StatementBlock
+		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		28, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S67
 		-1, // S'
@@ -756,7 +756,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		42, // Operation
 	},
 	gotoRow{ // S68
 		-1, // S'
@@ -777,7 +777,7 @@ var gotoTab = gotoTable{
 		-1, // Statement
 		-1, // ElseBlock
 		78, // Expression
-		21, // Term
+		23, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S70
@@ -787,31 +787,31 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
+		79, // Expression
+		27, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S71
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		-1, // StatementBlock
+		80, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		39, // Operation
+		30, // Operation
 	},
 	gotoRow{ // S72
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		-1, // StatementBlock
+		82, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		41, // Operation
+		30, // Operation
 	},
 	gotoRow{ // S73
 		-1, // S'
@@ -819,7 +819,7 @@ var gotoTab = gotoTable{
 		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
-		82, // ElseBlock
+		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -827,7 +827,7 @@ var gotoTab = gotoTable{
 	gotoRow{ // S74
 		-1, // S'
 		-1, // Program
-		84, // Statements
+		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
@@ -849,12 +849,12 @@ var gotoTab = gotoTable{
 	gotoRow{ // S76
 		-1, // S'
 		-1, // Program
-		85, // Statements
+		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		-1, // Expression
-		-1, // Term
+		86, // Expression
+		23, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S77
@@ -877,7 +877,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		39, // Operation
+		42, // Operation
 	},
 	gotoRow{ // S79
 		-1, // S'
@@ -888,7 +888,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		44, // Operation
 	},
 	gotoRow{ // S80
 		-1, // S'
@@ -896,7 +896,7 @@ var gotoTab = gotoTable{
 		-1, // Statements
 		-1, // StatementBlock
 		-1, // Statement
-		-1, // ElseBlock
+		90, // ElseBlock
 		-1, // Expression
 		-1, // Term
 		-1, // Operation
@@ -904,7 +904,7 @@ var gotoTab = gotoTable{
 	gotoRow{ // S81
 		-1, // S'
 		-1, // Program
-		-1, // Statements
+		92, // Statements
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
@@ -926,8 +926,8 @@ var gotoTab = gotoTable{
 	gotoRow{ // S83
 		-1, // S'
 		-1, // Program
-		-1, // Statements
-		89, // StatementBlock
+		93, // Statements
+		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
@@ -939,7 +939,7 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		53, // Statement
+		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
@@ -950,7 +950,7 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		53, // Statement
+		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
@@ -965,7 +965,7 @@ var gotoTab = gotoTable{
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		-1, // Operation
+		42, // Operation
 	},
 	gotoRow{ // S87
 		-1, // S'
@@ -985,8 +985,8 @@ var gotoTab = gotoTable{
 		-1, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
-		93, // Expression
-		21, // Term
+		-1, // Expression
+		-1, // Term
 		-1, // Operation
 	},
 	gotoRow{ // S89
@@ -1015,7 +1015,7 @@ var gotoTab = gotoTable{
 		-1, // S'
 		-1, // Program
 		-1, // Statements
-		-1, // StatementBlock
+		98, // StatementBlock
 		-1, // Statement
 		-1, // ElseBlock
 		-1, // Expression
@@ -1027,7 +1027,7 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		-1, // Statement
+		57, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
@@ -1038,11 +1038,11 @@ var gotoTab = gotoTable{
 		-1, // Program
 		-1, // Statements
 		-1, // StatementBlock
-		-1, // Statement
+		57, // Statement
 		-1, // ElseBlock
 		-1, // Expression
 		-1, // Term
-		39, // Operation
+		-1, // Operation
 	},
 	gotoRow{ // S94
 		-1, // S'
@@ -1067,6 +1067,116 @@ var gotoTab = gotoTable{
 		-1, // Operation
 	},
 	gotoRow{ // S96
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S97
+		-1,  // S'
+		-1,  // Program
+		-1,  // Statements
+		-1,  // StatementBlock
+		-1,  // Statement
+		-1,  // ElseBlock
+		103, // Expression
+		23,  // Term
+		-1,  // Operation
+	},
+	gotoRow{ // S98
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S99
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S100
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S101
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S102
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S103
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		42, // Operation
+	},
+	gotoRow{ // S104
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S105
+		-1, // S'
+		-1, // Program
+		-1, // Statements
+		-1, // StatementBlock
+		-1, // Statement
+		-1, // ElseBlock
+		-1, // Expression
+		-1, // Term
+		-1, // Operation
+	},
+	gotoRow{ // S106
 		-1, // S'
 		-1, // Program
 		-1, // Statements

@@ -122,10 +122,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Statement : identifier "[" Expression "]" assign Expression terminator	<< ast.NewAssignTabStatement(X[0], X[2], X[5]) >>`,
+		String: `Statement : "wait" "(" intLit ")" terminator	<< ast.NewWaitStatement(X[2]) >>`,
 		Id:         "Statement",
 		NTType:     4,
 		Index:      10,
+		NumSymbols: 5,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ast.NewWaitStatement(X[2])
+		},
+	},
+	ProdTabEntry{
+		String: `Statement : identifier "[" Expression "]" assign Expression terminator	<< ast.NewAssignTabStatement(X[0], X[2], X[5]) >>`,
+		Id:         "Statement",
+		NTType:     4,
+		Index:      11,
 		NumSymbols: 7,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewAssignTabStatement(X[0], X[2], X[5])
@@ -135,7 +145,7 @@ var productionsTable = ProdTab{
 		String: `ElseBlock : "else" StatementBlock	<< X[1], nil >>`,
 		Id:         "ElseBlock",
 		NTType:     5,
-		Index:      11,
+		Index:      12,
 		NumSymbols: 2,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[1], nil
@@ -145,7 +155,7 @@ var productionsTable = ProdTab{
 		String: `ElseBlock : empty	<<  >>`,
 		Id:         "ElseBlock",
 		NTType:     5,
-		Index:      12,
+		Index:      13,
 		NumSymbols: 0,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return nil, nil
@@ -155,7 +165,7 @@ var productionsTable = ProdTab{
 		String: `Expression : Expression Operation Term	<< ast.NewInfixExpression(X[0], X[2], X[1]) >>`,
 		Id:         "Expression",
 		NTType:     6,
-		Index:      13,
+		Index:      14,
 		NumSymbols: 3,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewInfixExpression(X[0], X[2], X[1])
@@ -165,7 +175,7 @@ var productionsTable = ProdTab{
 		String: `Expression : Term	<<  >>`,
 		Id:         "Expression",
 		NTType:     6,
-		Index:      14,
+		Index:      15,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -175,7 +185,7 @@ var productionsTable = ProdTab{
 		String: `Term : intLit	<< ast.NewIntegerLiteral(X[0]) >>`,
 		Id:         "Term",
 		NTType:     7,
-		Index:      15,
+		Index:      16,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewIntegerLiteral(X[0])
@@ -185,7 +195,7 @@ var productionsTable = ProdTab{
 		String: `Term : identifier	<< ast.NewIdentExpression(X[0]) >>`,
 		Id:         "Term",
 		NTType:     7,
-		Index:      16,
+		Index:      17,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewIdentExpression(X[0])
@@ -195,7 +205,7 @@ var productionsTable = ProdTab{
 		String: `Operation : plus	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      17,
+		Index:      18,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -205,7 +215,7 @@ var productionsTable = ProdTab{
 		String: `Operation : minus	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      18,
+		Index:      19,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -215,7 +225,7 @@ var productionsTable = ProdTab{
 		String: `Operation : mul	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      19,
+		Index:      20,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -225,7 +235,7 @@ var productionsTable = ProdTab{
 		String: `Operation : "=="	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      20,
+		Index:      21,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -235,7 +245,7 @@ var productionsTable = ProdTab{
 		String: `Operation : "<"	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      21,
+		Index:      22,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil

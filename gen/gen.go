@@ -86,6 +86,8 @@ func gen(node ast.Node, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 		return genWhileStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.TabInitStatement:
 		return genTabInitStatement(node, b, bVar, bTempVar, bTabs)
+	case *ast.WaitStatement:
+		return genWaitStatement(node, b, bVar, bTempVar, bTabs)
 	}
 	return ""
 }
@@ -128,6 +130,11 @@ func genAssignTabStatement(node *ast.AssignTabStatement, b, bVar, bTempVar, bTab
 	}
 	write(b, "ADD R1, R1, R0\n")
 	write(b, "STRB R3, [R1]\n")
+	return ""
+}
+
+func genWaitStatement(node *ast.WaitStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	write(b, "WAIT #0x%X\n", node.Time)
 	return ""
 }
 
