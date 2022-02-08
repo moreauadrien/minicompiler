@@ -192,10 +192,20 @@ var productionsTable = ProdTab{
 		},
 	},
 	ProdTabEntry{
-		String: `Term : identifier	<< ast.NewIdentExpression(X[0]) >>`,
+		String: `Term : identifier "[" Expression "]"	<< ast.NewTabExpression(X[0], X[2]) >>`,
 		Id:         "Term",
 		NTType:     7,
 		Index:      17,
+		NumSymbols: 4,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return ast.NewTabExpression(X[0], X[2])
+		},
+	},
+	ProdTabEntry{
+		String: `Term : identifier	<< ast.NewIdentExpression(X[0]) >>`,
+		Id:         "Term",
+		NTType:     7,
+		Index:      18,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return ast.NewIdentExpression(X[0])
@@ -205,7 +215,7 @@ var productionsTable = ProdTab{
 		String: `Operation : plus	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      18,
+		Index:      19,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -215,7 +225,7 @@ var productionsTable = ProdTab{
 		String: `Operation : minus	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      19,
+		Index:      20,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -225,7 +235,17 @@ var productionsTable = ProdTab{
 		String: `Operation : mul	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      20,
+		Index:      21,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `Operation : and	<<  >>`,
+		Id:         "Operation",
+		NTType:     8,
+		Index:      22,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -235,7 +255,17 @@ var productionsTable = ProdTab{
 		String: `Operation : "=="	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      21,
+		Index:      23,
+		NumSymbols: 1,
+		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
+			return X[0], nil
+		},
+	},
+	ProdTabEntry{
+		String: `Operation : "!="	<<  >>`,
+		Id:         "Operation",
+		NTType:     8,
+		Index:      24,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil
@@ -245,7 +275,7 @@ var productionsTable = ProdTab{
 		String: `Operation : "<"	<<  >>`,
 		Id:         "Operation",
 		NTType:     8,
-		Index:      22,
+		Index:      25,
 		NumSymbols: 1,
 		ReduceFunc: func(X []Attrib, C interface{}) (Attrib, error) {
 			return X[0], nil

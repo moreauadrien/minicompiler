@@ -1,5 +1,1 @@
-@tableau[50] = 0;
-@num = 5;
-
-tableau[1] = num;
-tableau[num] = 3;
+@int = tableau[0];

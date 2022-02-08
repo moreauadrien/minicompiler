@@ -1,0 +1,104 @@
+@continue = 1;
+@x[50] = 0;
+@y[50] = 0;
+@length = 3;
+@snakecolor = 56;
+
+/*
+ * 0 = left
+ * 1 = up
+ * 2 = right
+ * 3 = down
+*/
+@direction = 2;
+
+@in = input;
+@i = 0;
+
+x[0] = 2;
+x[1] = 1;
+x[2] = 0;
+
+y[0] = 0;
+y[1] = 0;
+y[2] = 0;
+
+screen[y[0]*15 + x[0]] = snakecolor;
+screen[y[1]*15 + x[1]] = snakecolor;
+screen[y[2]*15 + x[2]] = snakecolor;
+
+wait(500);
+
+while continue == 1 {
+        in = input;
+		
+		/* Supression de la derniere case du serpent */
+		screen[y[length-1]*15 + x[length-1]] = 0;
+
+		i = length;
+		while 0 < i {
+			y[i] = y[i-1];
+			x[i] = x[i-1];
+			i = i - 1;
+		}
+
+        /* Change direction */
+        if direction & 1 == 0 {
+                /* up */
+                if in == 2 {
+                        direction = 1;
+                }
+
+                /* down */
+                if in == 4 {
+                        direction = 3;
+                }
+        } else {
+                /* left */
+                if in == 8 {
+                        direction = 0;
+                }
+
+                /* right */
+                if in == 1 {
+                        direction = 2;
+                }
+        }
+
+		if direction == 0 {
+			if x[0] == 0 {
+				continue = 0;
+			} else {
+				x[0] = x[0] - 1;
+			}
+		}
+
+		if direction == 1 {
+			if y[0] == 0 {
+				continue = 0;
+			} else {
+				y[0] = y[0] - 1;
+			}
+		}
+
+		if direction == 2 {
+			if x[0] == 14 {
+				continue = 0;
+			} else {
+				x[0] = x[0] + 1;
+			}
+		}
+
+		if direction == 3 {
+			if y[0] == 19 {
+				continue = 0;
+			} else {
+				y[0] = y[0] + 1;
+			}
+		}
+
+
+		screen[y[0]*15 + x[0]] = snakecolor;
+
+        wait(500);
+}

@@ -16,6 +16,7 @@ assign: '=';
 plus: '+';
 minus: '-';
 mul: '*';
+and: '&';
 
 lbrace: '{';
 rbrace: '}';
@@ -53,8 +54,7 @@ Statement
 
 ElseBlock
 	: "else" StatementBlock << $1, nil >>
-	| empty
-	; 
+	| empty;
 
 Expression
   	: Expression Operation Term << ast.NewInfixExpression($0, $2, $1) >>
@@ -62,11 +62,14 @@ Expression
 
 Term
 	: intLit << ast.NewIntegerLiteral($0) >>
+	| identifier "[" Expression "]" << ast.NewTabExpression($0, $2) >>
 	| identifier << ast.NewIdentExpression($0) >>;
 
 Operation
  	: plus 
  	| minus
  	| mul 
+ 	| and 
 	| "=="
+	| "!="
 	| "<";

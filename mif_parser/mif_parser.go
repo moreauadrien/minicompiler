@@ -70,7 +70,7 @@ func CompileToMif(asmContent string) bytes.Buffer {
 	}
 	var b bytes.Buffer
 	//entête fichier mif :
-	entete := "DEPTH=256;\nWIDTH=24;\n\nADDRESS_RADIX=HEX;\nDATA_RADIX=HEX;\n\nCONTENT\nBEGIN\n"
+	entete := "DEPTH=8192;\nWIDTH=24;\n\nADDRESS_RADIX=HEX;\nDATA_RADIX=HEX;\n\nCONTENT\nBEGIN\n"
 	write(&b, "%v", entete)
 	content := asmContent
 	lines := strings.Split(content, "\n")

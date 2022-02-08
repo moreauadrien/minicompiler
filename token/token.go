@@ -157,7 +157,9 @@ var TokMap = TokenMap{
 		"plus",
 		"minus",
 		"mul",
+		"and",
 		"==",
+		"!=",
 		"<",
 	},
 
@@ -183,7 +185,9 @@ var TokMap = TokenMap{
 		"plus":       18,
 		"minus":      19,
 		"mul":        20,
-		"==":         21,
-		"<":          22,
+		"and":        21,
+		"==":         22,
+		"!=":         23,
+		"<":          24,
 	},
 }

@@ -17,6 +17,7 @@ var operatorToInstru = map[string]string{
 	"*":  "MUL",
 	"&":  "AND",
 	"==": "BEQ",
+	"!=":  "BNE",
 	"<":  "BCC",
 }
 
@@ -62,11 +63,8 @@ func newLabelNumber() int {
 
 func gen(node ast.Node, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	switch node := node.(type) {
-
 	case *ast.Program:
 		return genProgram(node, b, bVar, bTempVar, bTabs)
-	case *ast.ExpressionStatement:
-		return genExpressionStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.AssignStatement:
 		return genAssignStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.AssignTabStatement:
@@ -89,6 +87,8 @@ func gen(node ast.Node, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 		return genTabInitStatement(node, b, bVar, bTempVar, bTabs)
 	case *ast.WaitStatement:
 		return genWaitStatement(node, b, bVar, bTempVar, bTabs)
+	case *ast.TabExpression:
+		return genTabExpression(node, b, bVar, bTempVar, bTabs)
 	}
 	return ""
 }
@@ -97,12 +97,6 @@ func genProgram(node *ast.Program, b, bVar, bTempVar, bTabs *bytes.Buffer) strin
 	for _, stmt := range node.Statements {
 		gen(stmt, b, bVar, bTempVar, bTabs)
 	}
-	return ""
-}
-
-func genExpressionStatement(node *ast.ExpressionStatement, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
-	value := gen(node.Expression, b, bVar, bTempVar, bTabs)
-	write(b, "%v\n", value)
 	return ""
 }
 
@@ -126,7 +120,7 @@ func genAssignTabStatement(node *ast.AssignTabStatement, b, bVar, bTempVar, bTab
 	write(b, "LDRB R0, [R1]\n")
 	switch ident {
 	case "screen":
-		write(b, "MOV R1, #0x200\n")
+		write(b, "MOV R1, #0x4000\n")
 	default:
 		write(b, "MOV R1, #tab_%v\n", node.Left.Value)
 	}
@@ -177,7 +171,7 @@ func genInteger(node *ast.IntegerLiteral, b, bVar, bTempVar, bTabs *bytes.Buffer
 func genIdentifier(node *ast.Identifier, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
 	switch node.Value {
 	case "input":
-		return "0x400"
+		return "0x8000"
 	default:
 		return "var_" + node.Value
 	}
@@ -194,7 +188,7 @@ func genInfixExpression(node *ast.InfixExpression, b, bVar, bTempVar, bTabs *byt
 	write(b, "LDRB R3, [R1]\n")
 
 	switch node.Operator {
-	case "+", "-", "*":
+	case "+", "-", "*", "&":
 		write(b, "%v R0, R0, R3\n", operatorToInstru[node.Operator])
 
 	case "==", "<":
@@ -219,8 +213,6 @@ func genIfStatement(node *ast.IfStatement, b, bVar, bTempVar, bTabs *bytes.Buffe
 	cond := gen(node.Condition, b, bVar, bTempVar, bTabs)
 
 	labelId := newLabelNumber()
-
-	gen(node.Alternative, b, bVar, bTempVar, bTabs)
 
 	write(b, "MOV R1, #%v\n", cond)
 	write(b, "LDRB R0, [R1]\n")
@@ -258,4 +250,22 @@ func genBlockStatement(node *ast.BlockStatement, b, bVar, bTempVar, bTabs *bytes
 		gen(stmt, b, bVar, bTempVar, bTabs)
 	}
 	return ""
+}
+
+func genTabExpression(node *ast.TabExpression, b, bVar, bTempVar, bTabs *bytes.Buffer) string {
+	tmp := newTempVariable(bTempVar, "0x0")
+
+	idx := gen(node.Index, b, bVar, bTempVar, bTabs)
+	tabName := node.Ident.Value
+
+
+	write(b, "MOV R1, #%v\n", idx)
+	write(b, "LDRB R0, [R1]\n")
+	write(b, "MOV R1, #tab_%v\n", tabName)
+	write(b, "ADD R1, R1, R0\n")
+	write(b, "LDRB R0, [R1]\n")
+	write(b, "MOV R1, #%v\n", tmp)
+	write(b, "STRB R0, [R1]\n")
+
+	return tmp
 }

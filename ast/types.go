@@ -26,15 +26,6 @@ func (p Program) TokenLiteral() string {
 	return "Program"
 }
 
-type ExpressionStatement struct {
-	Token      *token.Token `json:"-"`
-	Expression Expression   `json:"statement"`
-}
-
-func (es ExpressionStatement) statementNode() {}
-func (es ExpressionStatement) TokenLiteral() string {
-	return "ExpressionStatement"
-}
 
 type InitStatement struct {
 	Token    *token.Token `json:"-"`
@@ -133,6 +124,17 @@ type Identifier struct {
 func (i Identifier) expressionNode() {}
 func (i Identifier) TokenLiteral() string {
 	return string(i.Token.Lit)
+}
+
+type TabExpression struct {
+	Token *token.Token `json:"-"`
+	Index Expression `json:"index"`
+	Ident Identifier `json:"indent"`
+}
+
+func (tab TabExpression) expressionNode() {}
+func (tab TabExpression) TokenLiteral() string {
+	return string(tab.Token.Lit)
 }
 
 type IntegerLiteral struct {

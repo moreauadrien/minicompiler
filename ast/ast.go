@@ -19,14 +19,6 @@ func NewStatementList() ([]Statement, error) {
 	return []Statement{}, nil
 }
 
-func NewExpressionStatement(expr Attrib) (Statement, error) {
-	e, ok := expr.(Expression)
-	if !ok {
-		return nil, fmt.Errorf("NewExpressionStatement Expression expr %s", expr)
-	}
-	return &ExpressionStatement{Expression: e}, nil
-}
-
 func AppendStatement(stmtList, stmt Attrib) ([]Statement, error) {
 	s, ok := stmt.(Statement)
 	if !ok {
@@ -148,7 +140,11 @@ func NewIfStatement(cond, cons, alt Attrib) (Statement, error) {
 
 	a, ok := alt.(*BlockStatement)
 	if !ok {
-		return nil, fmt.Errorf("invalid type of alt. got=%T", alt)
+		if a != nil {
+			return nil, fmt.Errorf("invalid type of alt. got=%T", alt)
+		}
+		list, _ := NewStatementList()
+		a, _ = NewBlockStatement(list)
 	}
 
 	return &IfStatement{Condition: c, Block: cs, Alternative: a}, nil
@@ -176,4 +172,19 @@ func NewWaitStatement(time Attrib) (Statement, error) {
 	}
 
 	return &WaitStatement{Token: time.(*token.Token), Time: timeInt}, nil
+}
+
+func NewTabExpression(ident, index Attrib) (Expression, error) {
+	identExpr, ok := ident.(*token.Token)
+	if !ok {
+		return nil, fmt.Errorf("NewTabExpression ident %v", ident)
+	}
+	
+	indexExpr, ok := index.(Expression)
+	if !ok {
+		return nil, fmt.Errorf("NewTabExpression index %v", index)
+	}
+
+
+	return &TabExpression{Token: ident.(*token.Token), Ident: Identifier{Value: string(identExpr.Lit)}, Index: indexExpr}, nil
 }
