@@ -172,6 +172,8 @@ func genIdentifier(node *ast.Identifier, b, bVar, bTempVar, bTabs *bytes.Buffer)
 	switch node.Value {
 	case "input":
 		return "0x8000"
+	case "random":
+		return "0xC000"
 	default:
 		return "var_" + node.Value
 	}

@@ -3,6 +3,7 @@
 @y[50] = 0;
 @length = 3;
 @snakecolor = 56;
+@applecolor = 192;
 
 /*
  * 0 = left
@@ -29,12 +30,37 @@ screen[y[2]*15 + x[2]] = snakecolor;
 
 wait(500);
 
+while input == 0 {
+	wait(1);
+}
+
+@apple = 500;
+@good = 0;
+
 while continue == 1 {
         in = input;
-		
-		/* Supression de la derniere case du serpent */
-		screen[y[length-1]*15 + x[length-1]] = 0;
 
+		if 299 < apple {
+			good = 0;
+			while good == 0 {
+				if apple < 300 {
+					i = 0;
+					good = 1;
+					while i < length {
+						if y[i]*15 + x[i] == apple {
+							good = 0;
+						}
+						i = i + 1;
+					}
+				} else {
+					apple = random;
+				}
+			}
+
+			screen[apple] = applecolor;
+		}
+
+		
 		i = length;
 		while 0 < i {
 			y[i] = y[i-1];
@@ -97,8 +123,18 @@ while continue == 1 {
 			}
 		}
 
+		i = y[0]*15 + x[0];
+		if apple == i {
+			length = length + 1;
+			apple = 500;
+		} else {
+			/* Supression de la derniere case du serpent */
+			screen[y[length]*15 + x[length]] = 0;
+		}
+
 
 		screen[y[0]*15 + x[0]] = snakecolor;
+		screen[apple] = applecolor;
 
         wait(500);
 }
