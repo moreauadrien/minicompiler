@@ -1,0 +1,67 @@
+@x = 6;
+@i = 0;
+@in = input;
+@xray[50] = 60;
+@yray[50] = 60;
+@continue = 1;
+
+while continue == 1 {
+	in = input;
+
+	/* clear screen */
+	i = 0;
+	while i < 300 {
+		screen[i] = 0;
+		i = i + 1;
+	}
+
+	/* left */
+	if in == 8 {
+		if 0 < x {
+			x = x - 1;
+		}
+	}
+
+	/* right */
+	if in == 1 {
+		if x < 12{
+			x = x + 1;
+		}
+	}
+
+	if in == 2 {
+		i = 0;
+		while i < 50 {
+			if 19 < yray[i] {
+				xray[i] = x + 1;
+				yray[i] = 15;
+				i = 50;
+			} 
+
+			i = i + 1;
+		}
+	}
+
+	i = 0;
+	while i < 50 {
+		if yray[i] < 20 {
+			if yray[i] == 1 {
+				xray[i] = 60;
+				yray[i] = 60;
+			} else {
+				yray[i] = yray[i] - 1;
+
+				screen[yray[i]*15 + xray[i]] = 192;
+				screen[yray[i]-1*15 + xray[i]] = 192;
+			}
+		}
+		i = i + 1;
+	}
+
+	screen[255 + x] = 6;
+	screen[240 + x + 1] = 6;
+	screen[255 + x + 1] = 91;
+	screen[255 + x + 2] = 6;
+
+	wait(250);
+}

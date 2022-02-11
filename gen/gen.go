@@ -104,7 +104,12 @@ func genAssignStatement(node *ast.AssignStatement, b, bVar, bTempVar, bTabs *byt
 	right := gen(node.Right, b, bVar, bTempVar, bTabs)
 	write(b, "MOV R1, #%v\n", right)
 	write(b, "LDRB R0, [R1]\n")
-	write(b, "MOV R1, #var_%v\n", node.Left.Value)
+	switch node.Left.Value {
+	case "output":
+		write(b, "MOV R1, #0x8001\n")
+	default:
+		write(b, "MOV R1, #var_%v\n", node.Left.Value)
+	}
 	write(b, "STRB R0, [R1]\n\n")
 	return ""
 }
